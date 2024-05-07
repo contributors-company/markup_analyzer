@@ -5,7 +5,7 @@ import 'package:yaml/yaml.dart';
 import 'package:path/path.dart' as path;
 
 const String version = '0.0.1';
-const String flavorConfigFilePattern = r'^test_localization.yaml$';
+const String flavorConfigFilePattern = r'^markup_analyzer.yaml$';
 
 const String helpFlag = 'help';
 const String versionFlag = 'version';
@@ -68,24 +68,31 @@ void main(List<String> arguments) {
 }
 
 check() {
-  final flavors = getFlavors();
-  if (flavors == null) {
-    throw FormatException('No configuration file found.');
-  }
-  final File pubspec = File(flavors);
-  final String pubspecContent = pubspec.readAsStringSync();
+  try {
+    final flavors = getFlavors();
+    if (flavors == null) {
+      throw FormatException('No configuration file found.');
+    }
+    final File pubspec = File(flavors);
+    final String pubspecContent = pubspec.readAsStringSync();
 
-  final Map yamlMap = loadYaml(pubspecContent);
-  String output = yamlMap['output'];
-  int countFiles = 0;
-  int countErrors = 0;
-  [countFiles, countErrors] =
-      workWithDirectory(output, countFiles, countErrors);
+    final Map yamlMap = loadYaml(pubspecContent);
+    String output = yamlMap['output'];
+    int countFiles = 0;
+    int countErrors = 0;
+    [countFiles, countErrors] =
+        workWithDirectory(output, countFiles, countErrors);
 
-  if (countErrors == 0) {
-    print('No errors found');
-  } else {
-    print('Found $countErrors errors in $countFiles files');
+    if (countErrors == 0) {
+      print('No errors found');
+      exit(0);
+    } else {
+      print('Found $countErrors errors in $countFiles files');
+      exit(1);
+    }
+  } catch (err) {
+    print(err);
+    exit(1);
   }
 }
 

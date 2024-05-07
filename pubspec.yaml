@@ -1,7 +1,7 @@
-name: test_localization
-description: This tool checks if there are any untranslated strings in your presentation layer.
-version: 1.0.1
-homepage: https://github.com/AlexHCJP/test_localization
+name: markup_analyzer
+description: This tool checks the markup of a Flutter project and generates a report.
+version: 1.0.4
+homepage: https://github.com/AlexHCJP/markup_analyzer
 
 environment:
   sdk: ^3.3.4

@@ -1,4 +1,4 @@
-# Test Localization Checker
+# Markup Analyzer
 
 ## Description
 
@@ -12,10 +12,10 @@ dart pub get test_localization
 
 ## Create configuration file
 
-Create a `test_localization.yaml` file in the root of your project with the following content:
+Create a `markup_analyzer.yaml` file in the root of your project with the following content:
 
 ```yaml
-# The path to the directory checking
+# The path to the directory checking 
 output: lib/presentation
 ```
 
