@@ -77,10 +77,22 @@ check() {
 
   final Map yamlMap = loadYaml(pubspecContent);
   String output = yamlMap['output'];
+  int countFiles = 0;
+  int countErrors = 0;
+  [countFiles, countErrors] =
+      workWithDirectory(output, countFiles, countErrors);
 
+  if (countErrors == 0) {
+    print('No errors found');
+  } else {
+    print('Found $countErrors errors in $countFiles files');
+  }
+}
+
+List workWithDirectory(String output, int countFiles, int countErrors) {
   Directory(output).listSync().forEach((file) async {
-    int countErrors = 0;
     if (file is File) {
+      final initialErrors = countErrors;
       final content = file.readAsStringSync();
 
       final buildMethod =
@@ -97,28 +109,26 @@ check() {
           if (string == null || string.isEmpty) {
             continue;
           }
-          // print(string);
-          // Проверь string на наличие в ней переменных
           RegExpMatch? match =
               RegExp(r'\$[a-zA-Z_][a-zA-Z0-9_]*|\$\{[a-zA-Z_][a-zA-Z0-9_]*\}')
                   .firstMatch(string);
           if (match == null) {
+            if (initialErrors == countErrors) {
+              countFiles++;
+            }
             stdout
-              ..write('Path To File: ${file.path}, ')
-              ..writeln('String: $string')
+              ..writeln(file.path)
+              ..writeln(' $string • error')
               ..writeln();
             countErrors++;
           }
         }
       }
-
-      if (countErrors > 0) {
-        print('Errors: $countErrors');
-        exit(1);
-      } else {
-        print('No errors');
-        exit(0);
-      }
+    }
+    if (file is Directory) {
+      [countFiles, countErrors] =
+          workWithDirectory(file.path, countFiles, countErrors);
     }
   });
+  return [countFiles, countErrors];
 }

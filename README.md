@@ -10,6 +10,15 @@ This tool checks if there are any untranslated strings in your presentation laye
 dart pub get test_localization
 ```
 
+## Create configuration file
+
+Create a `test_localization.yaml` file in the root of your project with the following content:
+
+```yaml
+# The path to the directory checking
+output: lib/presentation
+```
+
 ## Usage
 
 Run the script with the following command:
