@@ -293,6 +293,5 @@ custom_lint:
   Text(greeting); // Use a variable containing the result.
   ```
 
-```
 
 If your configuration has `simple: true`, running the analyzer will produce an error:
