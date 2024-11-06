@@ -17,3 +17,7 @@
 ## 1.0.4
 
 - change ReadMe.md
+
+## 2.0.0
+
+- Markup Analyzer its lint
